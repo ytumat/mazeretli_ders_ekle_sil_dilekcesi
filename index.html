@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dilekçe Oluştur</title>
+  <style>
+    body {
+      font-family: Calibri, "Times New Roman", serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    
+    .letter-section {
+      display: none;
+      margin-top: 40px;
+      padding: 40px;
+      background: white;
+      border: none;
+    }
+    .center-text {
+      text-align: center;
+      margin: 0;
+      line-height: 1.1;
+    }
+    .left-text {
+      text-align: justify;
+      margin-top: 20px;
+      white-space: pre-line;
+    }
+    .download-button {
+      display: none;
+      margin-top: 20px;
+    }
+    .ders-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #fafafa;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .letter-section, .letter-section * {
+        visibility: visible;
+      }
+      .letter-section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 210mm;
+        height: 297mm;
+        background: white !important;
+        padding: 40px;
+        margin: 0;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .download-button {
+        display: none !important;
+      }
+    }
+    .logo-image {
+      display: block;
+max-width: 80px;
+      height: auto;
+      margin-left: 0;
+      margin-right: auto;
+      margin-bottom: 20px;
+      
+    }
+
+.tarih-sag {
+  text-align: right;
+  margin: 0;
+  font-size: 16px;
+}
+#tarihYeri,
+#imzaAlani {
+  display: none;
+}
+
+.alt-kisim {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* İki kolon arası boşluk */
+  margin-top: 30px;
+}
+
+.sol-metni {
+  flex: 1;
+  max-width: 50%;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.sag-tablo {
+  flex: 1;
+  max-width: 50%;
+}
+
+.sag-tablo table {
+  width: 100%; /* tabloyu kapsayıcıya yay */
+  border-collapse: collapse;
+}
+
+.sag-tablo td {
+  border: 1px solid black;
+  padding: 10px;
+  height: 100px;
+  /* width kaldırıldı, çünkü flex düzenlemesi var */
+}
+
+.logo-header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Yatayda ortalar */
+  justify-content: center; /* Dikeyde ortalar */
+  gap: 4px; /* Elemanlar arası boşluk */
+  margin-bottom: 20px; /* Alt boşluk */
+}
+
+.logo-image {
+  max-width: 80px;
+  height: auto;
+  margin-bottom: 8px; /* Logoyla başlıklar arası boşluk */
+}
+
+/* Başlıklara küçük boşluklar ve hizalama */
+.logo-title {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.logo-subtitle {
+  margin: 0;
+  margin-bottom: 1cm;
+  font-style: italic;
+}
+
+.alt-kisim {
+  display: flex;
+  margin-top: 30px;
+  position: relative;
+}
+
+/* Sol kısım: genişlik minimum 2 cm + logo genişliği kadar ve soldan 2cm içeride */
+.sol-metni {
+  flex: 0 0 auto; /* genişliği içeriğe göre */
+  padding-left: 0cm; /* soldan boşluk */
+}
+
+/* Logo'yu solun tam 1cm içinden başlatmak için */
+.sol-metni img.logo-image {
+  margin-left: 0cm;
+}
+
+/* Sağ kısım: A4 genişliğine göre ortalanmış */
+.sag-tablo {
+  flex: 1 1 auto;
+  /* Sayfa genişliği A4: 210mm = 21cm, bizim container max-width zaten 900px ≈ 21 cm */
+  /* Sağ kısım tam genişlikte değil ama biz içeriği ortalayacağız */
+  display: flex;
+  flex-direction: column;
+  align-items: left; /* yatay ortala */
+  justify-content: flex-start;
+  padding-right: 6cm; /* sağdan da boşluk eklemek istersen */
+}
+
+/* İç metinlerin ortalanması */
+.sag-tablo p {
+  margin: 1px 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+ table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Mazeretli Ekle-Sil Dilekçesi Oluşturma</h2>
+    <form id="dilekceForm">
+      <label>Adınız:</label>
+            <input type="text" id="ad" required />
+      <label>Soyadınız:</label>
+            <input type="text" id="soyad" required />
+      <label>Öğrenci Numarası:</label>
+            <input type="text" id="numara" required />
+      <label>Yıldız E-posta:</label>
+            <div style="display: flex; align-items: center;">
+            <input type="text" id="emailUser" required style="flex: 1;" placeholder="kullaniciadi" />
+            <span style="margin-left: 5px;">@std.yildiz.edu.tr</span>
+            </div>
+      <label>Cep Telefonu:</label>
+            <input type="text" id="telefon" required />
+      <label>Mazeretiniz:</label>
+            <textarea id="mazeret" rows="3" required></textarea>
+
+<label>Eklenecek Ders <strong>Dahil</strong> GÜZ Yarıyılında <strong>Alınan Toplam Kredi</strong>:</label>
+      <input type="number" id="krediT" required />
+
+      <label>Bölümünüzü Seçiniz:</label>
+            <select id="bolumSelect" required>
+               <option value="MATEMATİK BÖLÜM BAŞKANLIĞINA">MATEMATİK</option>
+               <option value="FİZİK BÖLÜM BAŞKANLIĞINA">FİZİK</option>
+               <option value="KİMYA BÖLÜM BAŞKANLIĞINA">KİMYA</option>
+               <option value="İSTATİSTİK BÖLÜM BAŞKANLIĞINA">İSTATİSTİK</option>
+               <option value="MOLEKÜLER BİYOLOJİ VE GENETİK BÖLÜM BAŞKANLIĞINA">MOLEKÜLER BİYOLOJİ VE GENETİK</option>
+               <option value="TÜRK DİLİ VE EDEBİYATI BÖLÜM BAŞKANLIĞINA">TÜRK DİLİ VE EDEBİYATI</option>
+               <option value="BATI DİLLERİ VE EDEBİYATLARI BÖLÜM BAŞKANLIĞINA">BATI DİLLERİ VE EDEBİYATLARI</option>
+            </select>
+    
+
+      <div id="dersListesi"></div>
+            <button type="button" onclick="dersEkle()">➕ Ders Ekle</button>
+      <br><br>
+      <button type="submit">Dilekçeyi Oluştur</button>
+      </form>
+
+      <div class="letter-section" id="dilekceOutput">
+
+ <div class="alt-kisim">
+  <div class="sol-metni">
+    <p><img src="https://ytumat.github.io/mazeret_sinav_talebi_dilekcesi/logo.png" alt="Üniversite Logosu" class="logo-image" crossorigin="anonymous" />
+</p>
+  </div>
+  <div class="sag-tablo">
+   <br>
+ <p class="center-text logo-title" style="font-weight: bold; text-align:center">YILDIZ TEKNİK ÜNİVERSİTESİ</p>
+ <p class="center-text logo-title" style="font-weight: bold;">FEN-EDEBİYAT FAKÜLTESİ</p>
+  <p id="bolumYazisi" class="center-text logo-title" style="font-weight: bold;"></p>
+ <p class="center-text logo-title" style="font-weight: bold;">MAZERETLİ DERS EKLE-SİL DİLEKÇESİ</p>
+  </div>
+</div>
+
+    
+<div style="display: flex; justify-content: space-between; margin-top: 40px;">
+  <p id="adSoyadYazisi" style="margin: 0;"><strong>Adı-Soyadı:</strong> </p>
+  <p id="ustTarihYazisi" style="margin: 0;">Tarih: </p>
+</div>
+
+<!-- Alt satırdan devam eden sola yaslı bilgiler -->
+    <div style="margin-top: 0;">
+         <p id="numaraYazisi" style="margin: 0;"></p>
+         <p id="telefonYazisi" style="margin: 0;"></p>
+         <p id="emailYazisi" style="margin:  0 0 0;"></p>
+    </div>
+<br><br>
+
+
+<p style="text-align: justify;">
+  <strong>2025-2026</strong> eğitim-öğretim yılı <strong>BAHAR</strong> Yarıyılı ders kayıt haftasında aşağıda belirtmiş olduğum mazeretten ötürü ders kaydımı/ekle-sil işlemini yapamadım. Eklemek/silmek istediğim aşağıda yazılı derslerin öğrenci otomasyon sistemine işlenmesi için gereğini arz ederim.
+</p>
+
+
+<table id="gerekceTablosu" style="margin-top: 30px; width: 100%; border-collapse: collapse; border: none;">
+  <thead>
+    <tr>
+      <th style="text-align: justify; border: none; padding: 0px; min-height: 150px;">
+        <span style="font-weight: bold;">Mazeret:</span>
+        <span id="mazeretMetni" style="font-weight: normal;"></span>
+      </th>
+    </tr>
+  </thead>
+</table>
+
+
+<p style="text-align: right; margin-top: 10px;">
+  Saygılarımla,
+</p>
+
+<p id="epostaNotu" style="
+        text-align: center;
+        font-size: 12px;
+        margin-top: 50px;
+        color: rgba(0, 0, 0, 0.3);
+        font-style: italic;
+      "></p>
+
+
+
+
+   <div class="left-text" id="ogrenciBilgileri"></div>
+     
+     
+   <p style="margin-top: 30px; text-align: left;">Eklemek / Silmek  istediğiniz dersin karşısına  ( X ) ile işaretleyiniz.		
+</p>
+
+ <table id="dersTablosu"; style="border-collapse: collapse; width: 100%;">
+ <thead>
+
+    <!-- 1. Satır: DERSİN başlığı -->
+    <tr>
+ <th rowspan="2" style="width: 350px;">DERSİN ADI</th>
+
+      <th colspan="5" 
+          style="border-top: 1px solid black;
+                 border-left: 1px solid black;
+                 border-right: 1px solid black;
+                 border-bottom: 1px solid black;
+                 padding: 8px;
+                 text-align: center;
+                 font-weight: bold;">
+        DERSİN
+      </th>
+    </tr>
+
+    <!-- 2. Satır: Başlık hücreleri -->
+    <tr>
+      <th style="border-top: 1px solid black;
+                 border-left: 1px solid black;
+                 border-right: 1px solid black;
+                 border-bottom: 1px solid black;
+                 padding: 8px;
+                 text-align: center;
+                 font-size: 8pt;">
+        KREDİSİ
+      </th>
+      <th style="border-top: 1px solid black;
+                 border-left: 1px solid black;
+                 border-right: 1px solid black;
+                 border-bottom: 1px solid black;
+                 padding: 8px;
+                 text-align: center;
+                 font-size: 8pt;">
+        KODU
+      </th>
+      <th style="border-top: 1px solid black;
+                 border-left: 1px solid black;
+                 border-right: 1px solid black;
+                 border-bottom: 1px solid black;
+                 padding: 8px;
+                 text-align: center;
+                 font-size: 8pt;">
+        GRUBU
+      </th>
+      <th style="border-top: 1px solid black;
+                 border-left: 1px solid black;
+                 border-right: 1px solid black;
+                 border-bottom: 1px solid black;
+                 padding: 8px;
+                 text-align: center;
+                 font-size: 8pt;">
+        EKLENECEK
+      </th>
+      <th style="border-top: 1px solid black;
+                 border-left: 1px solid black;
+                 border-right: 1px solid black;
+                 border-bottom: 1px solid black;
+                 padding: 8px;
+                 text-align: center;
+                 font-size: 8pt;">
+        SİLİNECEK
+      </th>
+    </tr>
+ </thead>
+ <tbody></tbody>
+
+  </table>
+
+
+       <br> 
+<strong>Bir Yarıyılda alınan toplam kredi:</strong> <span id="krediBilgisi"></span></p>
+
+<br><br><br>
+Öğrencinin yukarıda almak istediğini beyan ettiği dersler tarafımdan kontrol edilmiş olup, çakışması<br>
+bulunmadığı, kredi ve içerik itibariyle uygun olduğu,  bir yarıyılda alınması gereken maksimum kredi<br>
+sınırını aşmadığı tespit edilmiştir.
+<br><br>
+  
+<div style="display: flex; justify-content: space-between; margin-top: 40px;">
+  <p><strong>DANIŞMANIN ADI SOYADI İMZASI</strong> </p>
+  <p><strong>BÖLÜM BAŞKANI</strong> </p>
+</div>
+
+
+
+ <p style="text-align: right;" id="tarihYeri"></p>
+<p style="text-align: right;" id="imzaAlani">İmza: _________</p>
+
+
+
+    <div class="download-button" id="downloadBtnDiv">
+      <button id="downloadBtn">📥 PDF Olarak İndir</button>
+    </div>
+  </div>
+
+  <!-- jsPDF ve html2canvas kütüphaneleri -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+   function formatDersAdi(dersAdi) {
+  if (!dersAdi) return "";
+  
+  const turkishToLower = (str) =>
+    str.replace(/İ/g, "i").replace(/I/g, "ı")
+       .replace(/Ş/g, "ş").replace(/Ğ/g, "ğ")
+       .replace(/Ü/g, "ü").replace(/Ö/g, "ö")
+       .replace(/Ç/g, "ç").toLowerCase();
+
+  const turkishCapitalize = (str) =>
+    str.charAt(0).toLocaleUpperCase("tr-TR") + turkishToLower(str.slice(1));
+
+  return dersAdi
+    .split(" ")
+    .map(kelime => turkishCapitalize(kelime))
+    .join(" ");
+}
+
+
+function formatDersKodu(kod) {
+  if (!kod) return "";
+  const firstThree = kod.slice(0, 3).toUpperCase();
+  const rest = kod.slice(3).toLowerCase();
+  return firstThree + rest;
+}
+
+
+    function dersEkle() {
+      const container = document.getElementById("dersListesi");
+      const div = document.createElement("div");
+      div.className = "ders-item";
+      div.innerHTML = `
+        <label>Dersin Kodu:</label>
+        <input type="text" name="derskod" required />
+        <label>Dersin Adı:</label>
+        <input type="text" name="dersad" required />
+        <label>Dersin Grubu:</label>
+        <input type="text" name="dersgrup" required />
+        <label>Dersin Kredisi:</label>
+        <input type="text" name="derskredi" required />
+        
+
+ 
+<label>İşlem Türü:</label>
+<select name="dersislem">
+  <option value="">-- Seçiniz --</option>
+  <option value="ekle">Ekle</option>
+  <option value="sil">Sil</option>
+</select>
+
+
+
+      `;
+      container.appendChild(div);
+    }
+
+    window.onload = () => dersEkle();
+
+    document.getElementById("dilekceForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const ad = document.getElementById("ad").value;
+      const soyad = document.getElementById("soyad").value;
+      const numara = document.getElementById("numara").value;
+      
+      const telefon = document.getElementById("telefon").value;
+      const bolum = document.getElementById("bolumSelect").value;
+      const mazeret = document.getElementById("mazeret").value;
+      const adSoyad = `${ad}_${soyad}`.replace(/\s+/g, "_");
+      const krediT = document.getElementById("krediT").value;
+
+
+      window.adSoyad = adSoyad;
+
+const emailUser = document.getElementById("emailUser").value.trim();
+const email = `${emailUser}@std.yildiz.edu.tr`;
+
+
+
+
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString("tr-TR");
+document.getElementById("ustTarihYazisi").innerText = `Tarih: ${formattedDate}`;
+
+
+      const bilgiler = `<strong>Ad Soyad:</strong> ${ad} ${soyad}<br>
+<strong>Öğrenci No:</strong> ${numara}<br>
+<strong>E-posta:</strong> ${email}<br>
+<strong>Telefon:</strong> ${telefon}<br><div style="margin-bottom:2cm;"></div>`;
+     
+      document.getElementById("bolumYazisi").innerText = bolum;
+      document.getElementById("tarihYeri").innerText = `Tarih: ${formattedDate}`;
+      document.getElementById("mazeretMetni").innerText = mazeret;
+      document.getElementById("numaraYazisi").innerText = numara;
+document.getElementById("ustTarihYazisi").innerText = `Tarih: ${formattedDate}`;
+document.getElementById("adSoyadYazisi").innerHTML = `<strong>Adı-Soyadı:</strong> ${ad} ${soyad}`;
+document.getElementById("telefonYazisi").innerHTML = `<strong>GSM No:</strong> ${telefon}`;
+document.getElementById("emailYazisi").innerHTML = `<strong>E-posta:</strong> ${email}`;
+document.getElementById("numaraYazisi").innerHTML = `<strong>Öğrenci No:</strong> ${numara}`;
+
+document.getElementById("epostaNotu").innerText = `Bu belge ${email} adresinden bölüme iletilmiştir.`;
+ document.getElementById("krediBilgisi").innerText = krediT;
+
+      const tbody = document.querySelector("#dersTablosu tbody");
+      tbody.innerHTML = "";
+
+     const dersler = document.querySelectorAll(".ders-item");
+dersler.forEach((ders, index) => {
+  const total = dersler.length;
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
+
+  const kodRaw = ders.querySelector("input[name='derskod']").value;
+  const kod = formatDersKodu(kodRaw);
+  const islem = ders.querySelector("select[name='dersislem']").value;
+  const eklenecek = islem === "ekle" ? "X" : "";
+  const silinecek = islem === "sil" ? "X" : "";
+
+
+ 
+
+
+  const ad = formatDersAdi(ders.querySelector("input[name='dersad']").value);
+  const grup = ders.querySelector("input[name='dersgrup']").value;
+  const kredi = ders.querySelector("input[name='derskredi']").value;
+
+  // Satıra özel border yapısı
+  const topBorder = "1px solid black";
+  const bottomBorder = "1px solid black";
+
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td style="border-left: 1px solid black; border-top: ${topBorder}; border-bottom: ${bottomBorder}; border-right: 1px solid black;">${ad}</td>
+    <td style="border: 1px solid black; border-top: ${topBorder}; border-bottom: ${bottomBorder};">${kredi}</td>
+    <td style="border: 1px solid black; border-top: ${topBorder}; border-bottom: ${bottomBorder};">${kod}</td>
+    <td style="border: 1px solid black; border-top: ${topBorder}; border-bottom: ${bottomBorder};">${grup}</td>
+    <td style="border: 1px solid black; border-top: ${topBorder}; border-bottom: ${bottomBorder};">${eklenecek}</td>
+    <td style="border-right: 1px solid black; border-top: ${topBorder}; border-bottom: ${bottomBorder}; border-left: 1px solid black;">${silinecek}</td>
+  `;
+  tbody.appendChild(row);
+});
+
+
+
+      document.getElementById("dilekceOutput").style.display = "block";
+      document.getElementById("downloadBtnDiv").style.display = "block";
+    });
+
+    document.getElementById("downloadBtn").addEventListener("click", function () {
+  const img = document.querySelector(".logo-image");
+  const downloadBtnDiv = document.getElementById("downloadBtnDiv");
+
+  // Butonu gizle
+  downloadBtnDiv.style.visibility = "hidden";
+
+  if (!img.complete) {
+    img.onload = () => startPdf();
+    img.onerror = () => {
+      alert("Logo yüklenemedi!");
+      startPdf();
+    };
+  } else {
+    startPdf();
+  }
+
+  function startPdf() {
+    const element = document.getElementById("dilekceOutput");
+
+    html2canvas(element, {
+      scale: 3,
+      useCORS: true,
+      logging: false
+    }).then(canvas => {
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdfWidth = 210;
+      const pdfHeight = 297;
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const pxPerMm = canvasWidth / pdfWidth;
+      const imgHeightInPdf = canvasHeight / pxPerMm;
+
+      const pdf = new window.jspdf.jsPDF({
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait"
+      });
+
+      let renderHeight = imgHeightInPdf;
+      let renderWidth = pdfWidth;
+
+      if (imgHeightInPdf > pdfHeight) {
+        const scale = pdfHeight / imgHeightInPdf;
+        renderHeight = pdfHeight;
+        renderWidth = pdfWidth * scale;
+      }
+
+      pdf.addImage(imgData, "PNG", 0, 0, renderWidth, renderHeight);
+
+pdf.setFont("helvetica", "italic"); // italik font
+pdf.setFontSize(8);
+pdf.setTextColor(150); // silik gri
+pdf.text("Form No: FR-0531; Revizyon Tarihi: 14.01.2014; Revizyon No:02", 10, 290);
+
+      pdf.save(`${window.adSoyad || "dilekce"}.pdf`);
+
+      // Butonu tekrar göster
+      downloadBtnDiv.style.visibility = "visible";
+    }).catch(e => {
+      alert("PDF oluşturulurken hata oluştu: " + e.message);
+      downloadBtnDiv.style.visibility = "visible";
+    });
+  }
+});
+
+  </script>
+</body>
+</html>
