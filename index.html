@@ -596,7 +596,7 @@ dersler.forEach((ders, index) => {
       useCORS: true,
       logging: false
     }).then(canvas => {
-      const imgData = canvas.toDataURL("image/png");
+      const imgData = canvas.toDataURL("image/jpeg", 0.8); // 0.8 kalite, isteğe göre düşürülebilir
 
       const pdfWidth = 210;
       const pdfHeight = 297;
@@ -641,4 +641,5 @@ pdf.text("Form No: FR-0531; Revizyon Tarihi: 14.01.2014; Revizyon No:02", 10, 29
   </script>
 </body>
 </html>
+
 
