@@ -205,6 +205,54 @@ max-width: 80px;
       padding: 8px;
       text-align: center;
     }
+/* ... senin mevcut stillerin buraya kadar ... */
+
+/* ✅ Mobil uyum düzenlemeleri */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .alt-kisim {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sol-metni, .sag-tablo {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .sag-tablo {
+    align-items: center;
+    padding-right: 0;
+  }
+
+  .logo-image {
+    max-width: 60px;
+    margin-bottom: 10px;
+  }
+
+  table, th, td {
+    font-size: 12px;
+    word-wrap: break-word;
+  }
+
+  input, select, textarea, button {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  #epostaNotu {
+    font-size: 11px;
+  }
+}
+</style>
 
 
   </style>
@@ -641,6 +689,7 @@ pdf.text("Form No: FR-0531; Revizyon Tarihi: 14.01.2014; Revizyon No:02", 10, 29
   </script>
 </body>
 </html>
+
 
 
 
