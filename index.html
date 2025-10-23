@@ -323,6 +323,7 @@ max-width: 80px;
 <!-- Alt satırdan devam eden sola yaslı bilgiler -->
     <div style="margin-top: 0;">
          <p id="numaraYazisi" style="margin: 0;"></p>
+         <p id="bolumBilgisiYazisi" style="margin: 0;"></p> <!-- ✅ yeni eklendi -->
          <p id="telefonYazisi" style="margin: 0;"></p>
          <p id="emailYazisi" style="margin:  0 0 0;"></p>
     </div>
@@ -570,6 +571,7 @@ document.getElementById("adSoyadYazisi").innerHTML = `<strong>Adı-Soyadı:</str
 document.getElementById("telefonYazisi").innerHTML = `<strong>GSM No:</strong> ${telefon}`;
 document.getElementById("emailYazisi").innerHTML = `<strong>E-posta:</strong> ${email}`;
 document.getElementById("numaraYazisi").innerHTML = `<strong>Öğrenci No:</strong> ${numara}`;
+document.getElementById("bolumBilgisiYazisi").innerHTML = `<strong>Bölüm:</strong> ${bolum.replace(" BÖLÜM BAŞKANLIĞINA","")}`;
 
 document.getElementById("epostaNotu").innerText = `Bu belge ${email} adresinden bölüme iletilmiştir.`;
  document.getElementById("krediBilgisi").innerText = krediT;
@@ -689,6 +691,7 @@ pdf.text("Form No: FR-0531; Revizyon Tarihi: 14.01.2014; Revizyon No:02", 10, 29
   </script>
 </body>
 </html>
+
 
 
 
