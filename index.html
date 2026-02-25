@@ -69,12 +69,18 @@ line-height:1.4;
 
 
 /* Onay metninin yazıldığı paragraf için özel ayar */
+.toplam-kredi {
+    margin-bottom: 0 !important; /* Altındaki boşluğu sıfırla */
+    margin-top: 10px;
+    font-size: 14px;
+}
+
 .onay-metni {
     text-align: justify;
     width: 100%;
-    margin-top: 20px;
-    padding-right: 80px; /* Sağ taraftaki o resmi boşluğu oluşturur */
-    line-height: 1.6;    /* Satır aralığını ferahlatır */
+    margin-top: 20px !important; /* Kredi satırına olan uzaklık sadece 5px olsun */
+    padding-right: 80px; 
+    line-height: 1.5;    
     font-size: 14px;
     box-sizing: border-box;
 }
@@ -254,8 +260,8 @@ line-height:1.4;
           <tbody></tbody>
         </table>
       </div>
-      <p style="margin-top: 15px;"><strong>Bir Yarıyılda alınan toplam kredi:</strong> <span id="krediBilgisi"></span></p>
-      <br><br><br>
+            
+<p class="toplam-kredi"><strong>Bir Yarıyılda alınan toplam kredi:</strong> <span id="krediBilgisi"></span></p>
 
 <div class="onay-metni">
     Öğrencinin yukarıda almak istediğini beyan ettiği dersler tarafımdan kontrol edilmiş olup, çakışması <br>
@@ -263,8 +269,6 @@ line-height:1.4;
     sınırını aşmadığı tespit edilmiştir.
 </div>
 
-
-      <br><br>
       <div style="display: flex; justify-content: space-between; margin-top: 40px;">
         <p><strong>DANIŞMANIN ADI SOYADI İMZASI</strong></p>
         <p><strong>BÖLÜM BAŞKANI</strong></p>
