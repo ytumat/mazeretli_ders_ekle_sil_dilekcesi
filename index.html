@@ -312,43 +312,39 @@ const soyad = document.getElementById("soyad").value.toLocaleUpperCase('tr-TR');
 
 
 
-  document.getElementById("downloadBtn").addEventListener("click", function() {
-  const originalElement = document.getElementById("dilekceOutput");
+document.getElementById("downloadBtn").addEventListener("click", function() {
+  const element = document.getElementById("dilekceOutput");
   
-  // 1. Dilekçenin bir kopyasını oluştur (Klonlama)
-  const clone = originalElement.cloneNode(true);
+  // 1. Dilekçeyi çekimden önce tam görünür yap ve taşmaları serbest bırak
+  const originalOverflow = element.style.overflow;
+  const originalWidth = element.style.width;
   
-  // 2. Klonu ekranın dışına, görünmez bir yere yerleştir ama boyutlarını sabitle
-  Object.assign(clone.style, {
-    position: "absolute",
-    left: "-9999px",
-    top: "0",
-    display: "block",
-    width: "800px",      // Masaüstü genişliği (A4 oranı)
-    margin: "0",
-    padding: "40px",
-    backgroundColor: "white"
-  });
-  
-  document.body.appendChild(clone);
+  // Mobilde kesilmeyi önlemek için genişliği içeriğe göre genişletiyoruz
+  element.style.overflow = "visible";
+  element.style.width = "800px"; // Dilekçeyi standart A4 genişliğine zorla
 
-  // 3. Klonun fotoğrafını çek
-  html2canvas(clone, { 
-    scale: 2, 
+  html2canvas(element, { 
+    scale: 2.5, // Netlik için ideal
     useCORS: true,
     logging: false,
+    // ÖNEMLİ: Elementin gerçek boyutlarını yakala
     width: 800,
-    windowWidth: 800
+    height: element.scrollHeight,
+    windowWidth: 800, 
+    x: 0,
+    y: window.scrollY // O anki kaydırma pozisyonunu sıfırlamaya yardımcı olur
   }).then(canvas => {
-    // 4. Klonu temizle (Sil)
-    document.body.removeChild(clone);
+    // 2. İşlem bitince stilleri eski haline getir
+    element.style.overflow = originalOverflow;
+    element.style.width = originalWidth;
 
-    const imgData = canvas.toDataURL("image/jpeg", 0.98);
+    const imgData = canvas.toDataURL("image/jpeg", 0.95);
     const pdf = new jspdf.jsPDF("p", "mm", "a4");
     
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
     
+    // Eğer içerik tek sayfaya sığmıyorsa diye tam genişlik eklemesi
     pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
     pdf.save(`${window.adSoyad}.pdf`);
   });
@@ -367,5 +363,6 @@ const soyad = document.getElementById("soyad").value.toLocaleUpperCase('tr-TR');
   </script>
 </body>
 </html>
+
 
 
