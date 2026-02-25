@@ -59,15 +59,26 @@
     .letter-section { 
         display: none; 
         margin-top: 40px; 
-        padding: 40px 60px; /* İçerik merkeze çekildi */
+        padding: 40px 50px; /* İçerik merkeze çekildi */
         background: white; 
         border: none;
-        width: 850px !important; /* A4 genişliği garantiye alındı */
-        min-width: 850px !important;
-        overflow: hidden !important;
-        word-wrap: break-word;
+        width: 800px !important; /* A4 genişliği garantiye alındı */
         box-sizing: border-box;
+line-height:1.4;
     }
+
+
+/* Onay metninin yazıldığı paragraf için özel ayar */
+.onay-metni {
+    text-align: justify;
+    width: 100%;
+    margin-top: 20px;
+    padding-right: 80px; /* Sağ taraftaki o resmi boşluğu oluşturur */
+    line-height: 1.6;    /* Satır aralığını ferahlatır */
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
 
     /* Dilekçe Başlık ve Logo */
     .center-text { text-align: center; margin: 0; line-height: 1.1; }
@@ -245,9 +256,14 @@
       </div>
       <p style="margin-top: 15px;"><strong>Bir Yarıyılda alınan toplam kredi:</strong> <span id="krediBilgisi"></span></p>
       <br><br><br>
-      Öğrencinin yukarıda almak istediğini beyan ettiği dersler tarafımdan kontrol edilmiş olup, çakışması<br>
-      bulunmadığı, kredi ve içerik itibariyle uygun olduğu, bir yarıyılda alınması gereken maksimum kredi<br>
-      sınırını aşmadığı tespit edilmiştir.
+
+<div class="onay-metni">
+    Öğrencinin yukarıda almak istediğini beyan ettiği dersler tarafımdan kontrol edilmiş olup, çakışması <br>
+    bulunmadığı, kredi ve içerik itibariyle uygun olduğu, bir yarıyılda alınması gereken maksimum kredi <br>
+    sınırını aşmadığı tespit edilmiştir.
+</div>
+
+
       <br><br>
       <div style="display: flex; justify-content: space-between; margin-top: 40px;">
         <p><strong>DANIŞMANIN ADI SOYADI İMZASI</strong></p>
@@ -350,14 +366,14 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
   document.body.style.width = "1200px"; // 1000'den 1200'e çıkardık
   
   element.style.display = "block";
-  element.style.width = "850px"; // CSS ile uyumlu hale getirdik
+  element.style.width = "800px"; // CSS ile uyumlu hale getirdik
 
   html2canvas(element, { 
     scale: 2, 
     useCORS: true,
     logging: false,
-    width: 850,
-    windowWidth: 1200, // Tarayıcı genişliğini çok büyük tutarak kesilmeyi önlüyoruz
+    width: 800,
+    windowWidth: 1000, // Tarayıcı genişliğini çok büyük tutarak kesilmeyi önlüyoruz
     x: 0,
     y: 0
   }).then(canvas => {
