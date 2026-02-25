@@ -315,30 +315,37 @@ const soyad = document.getElementById("soyad").value.toLocaleUpperCase('tr-TR');
   document.getElementById("downloadBtn").addEventListener("click", function() {
   const element = document.getElementById("dilekceOutput");
   
-  // Eğer ekran mobildeyse (768px'den küçükse) genişliği sabitle, değilse boş bırak
-  const isMobile = window.innerWidth <= 768;
-  const originalWidth = element.style.width;
+  // Orijinal stilleri yedekle
+  const originalStyle = element.getAttribute("style");
   
-  if (isMobile) {
-    element.style.width = "850px"; // Mobilde A4 oranını korumak için ideal genişlik
-  }
+  // Çekim anında her cihazda (mobil dahil) sabit genişlik ve görünürlük sağla
+  element.style.display = "block";
+  element.style.width = "800px";  // Standart A4 pixel karşılığına yakın sabit genişlik
+  element.style.padding = "40px";
+  element.style.position = "static";
 
   html2canvas(element, { 
-    scale: 3, 
+    scale: 2, // 3 yerine 2 hem hızı artırır hem de mobil hafızasını zorlamaz
     useCORS: true,
     logging: false,
-    // Önemli: Elemanın gerçek iç genişliğini yakala
-    width: isMobile ? 850 : element.scrollWidth,
-    windowWidth: isMobile ? 850 : window.innerWidth
+    width: 800, // Çekilecek alanın genişliğini sabitle
+    windowWidth: 800 // Tarayıcı penceresini bu genişlikteymiş gibi simüle et
   }).then(canvas => {
-    // Çekimden sonra genişliği eski haline döndür
-    element.style.width = originalWidth;
+    // Çekimden sonra orijinal stilleri geri yükle
+    if (originalStyle) {
+        element.setAttribute("style", originalStyle);
+    } else {
+        element.removeAttribute("style");
+        element.style.display = "block"; // Dilekçe görünmeye devam etsin
+    }
 
-    const imgData = canvas.toDataURL("image/jpeg", 1.0);
+    const imgData = canvas.toDataURL("image/jpeg", 0.95);
     const pdf = new jspdf.jsPDF("p", "mm", "a4");
     
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    // Görüntünün kağıda tam sığması için hesaplama
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     
     pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
     pdf.save(`${window.adSoyad}.pdf`);
@@ -358,3 +365,4 @@ const soyad = document.getElementById("soyad").value.toLocaleUpperCase('tr-TR');
   </script>
 </body>
 </html>
+
