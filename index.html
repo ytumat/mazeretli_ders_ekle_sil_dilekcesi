@@ -5,171 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dilekçe Oluştur</title>
   <style>
-    /* 1. Genel Sayfa Yapısı */
-    body { 
-        font-family: Calibri, "Times New Roman", serif; 
-        background-color: #f4f4f4; 
-        padding: 20px; 
-        margin: 0;
-    }
-    html {
-        -webkit-text-size-adjust: 100%; /* iOS font büyütme engeli */
-    }
-    .container { 
-        max-width: 900px; 
-        margin: auto; 
-        background: white; 
-        padding: 30px; 
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    }
+   /* 1. Genel Sayfa Yapısı */
+body { 
+    font-family: Calibri, "Times New Roman", serif; 
+    background-color: #f4f4f4; 
+    padding: 20px; 
+    margin: 0;
+}
+html { -webkit-text-size-adjust: 100%; }
 
-    /* 2. Form Elemanları ve Butonlar */
-    input, select, textarea { 
-        width: 100%; 
-        padding: 10px; 
-        margin-top: 6px; 
-        margin-bottom: 16px; 
-        font-size: 16px; 
-        box-sizing: border-box; 
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    .button-group {
-        display: flex;
-        gap: 10px;
-        margin-top: 10px;
-    }
-    button { 
-        height: 45px; 
-        line-height: 45px; 
-        font-size: 16px; 
-        cursor: pointer; 
-        flex: 1; 
-        box-sizing: border-box; 
-        border: none;
-        border-radius: 4px;
-        font-weight: bold;
-        text-align: center;
-        padding: 0;
-    }
-    #dersEkleBtn { background-color: #ffc107; color: black; }
-    button[type="submit"] { background-color: #28a745; color: white; }
-
-    /* 3. Dilekçe Çıktı Alanı (PDF Çekilen Bölüm) */
-    .letter-section { 
-        display: none; 
-        margin-top: 40px; 
-        padding: 40px 50px; /* İçerik merkeze çekildi */
-        background: white; 
-        border: none;
-        width: 800px !important; /* A4 genişliği garantiye alındı */
-        box-sizing: border-box;
-line-height:1.4;
-    }
-
-
-/* Onay metninin yazıldığı paragraf için özel ayar */
-.toplam-kredi {
-    margin-bottom: 0 !important; /* Altındaki boşluğu sıfırla */
-    margin-top: 10px;
-    font-size: 14px;
+.container { 
+    max-width: 900px; 
+    margin: auto; 
+    background: white; 
+    padding: 30px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
-.onay-metni {
-    text-align: justify;
-    width: 100%;
-    margin-top: 20px !important; /* Kredi satırına olan uzaklık sadece 5px olsun */
-    padding-right: 80px; 
-    line-height: 1.5;    
-    font-size: 14px;
-    box-sizing: border-box;
+/* 2. Form Elemanları ve Butonlar */
+input, select, textarea { 
+    width: 100%; 
+    padding: 10px; 
+    margin-top: 6px; 
+    margin-bottom: 16px; 
+    font-size: 16px; 
+    box-sizing: border-box; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
-
-
-    /* Dilekçe Başlık ve Logo */
-    .center-text { text-align: center; margin: 0; line-height: 1.1; }
-    .logo-image { display: block; max-width: 80px; height: auto; margin-bottom: 20px; }
-    .alt-kisim { display: flex; margin-top: 30px; position: relative; }
-    .sag-tablo { 
-        flex: 1; 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        margin-right: 80px; 
-    }
-    .ust-bilgi-satiri {
-        display: flex; 
-        justify-content: space-between; 
-        margin-top: 40px;
-        width: 100%;
-    }
-
-    /* 4. Tablo Tasarımı */
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid black; padding: 8px; text-align: center; }
-    
-    #dersTablosu {
-        width: 100% !important;
-        table-layout: fixed; /* Hücre taşmalarını engeller */
-    }
-    #dersTablosu td, #dersTablosu th {
-        word-wrap: break-word;
-        font-size: 12px; 
-    }
-
-    /* 5. Mobil ve Yazdırma Kuralları */
-    @media (max-width: 768px) {
-        .container { padding: 15px; width: 100%; }
-        .alt-kisim { flex-direction: column; align-items: center; }
-        .sag-tablo { margin-right: 0 !important; }
-        .button-group { flex-direction: column; }
-        button { width: 100%; }
-        #dersTablosuContainer { overflow-x: auto; width: 100%; }
-    }
-
-    @media (max-width: 600px) {
-        .email-container { flex-wrap: wrap; }
-        .email-container span {
-            font-size: 14px;
-            color: #555;
-            margin-top: -10px;
-            margin-bottom: 10px;
-        }
-    }
-
-    @media print {
-        body * { visibility: hidden; }
-        .letter-section, .letter-section * { visibility: visible; }
-        .letter-section { position: absolute; top: 0; left: 0; width: 210mm; }
-    }
-
-/* Tablo Genel Ayarı */
-#dersTablosu {
-    width: 100% !important;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-
-/* Başlık Satırları (DERSİN ADI, DERSİN vb.) */
-#dersTablosu th {
-    font-size: 14px; /* Başlıklar için daha büyük punto */
+.button-group { display: flex; gap: 10px; margin-top: 10px; }
+button { 
+    height: 45px; 
+    line-height: 45px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    flex: 1; 
+    border: none;
+    border-radius: 4px;
     font-weight: bold;
-    background-color: #f9f9f9; /* Hafif bir gri tonu başlıkları belirginleştirir */
-    padding: 10px 5px;
+    text-align: center;
+}
+#dersEkleBtn { background-color: #ffc107; color: black; }
+button[type="submit"] { background-color: #28a745; color: white; }
+
+/* 3. Dilekçe Çıktı Alanı (PDF) */
+.letter-section { 
+    display: none; 
+    margin-top: 40px; 
+    padding: 40px 50px; 
+    background: white; 
+    width: 800px !important; 
+    box-sizing: border-box;
+    line-height: 1.4;
 }
 
-/* Veri Satırları (Öğrencinin girdiği dersler) */
-#dersTablosu td {
-    word-wrap: break-word;
-    font-size: 13px; /* Veriler başlığa göre bir tık daha küçük ama okunur */
-    padding: 8px;
+.toplam-kredi { margin-top: 10px; font-size: 14px; font-weight: bold; }
+.onay-metni { 
+    text-align: justify; 
+    width: 100%; 
+    margin-top: 20px !important; 
+    padding-right: 80px; 
+    line-height: 1.5; 
+    font-size: 14px; 
 }
 
-/* Tablo içindeki minik açıklamalar (KREDİSİ, KODU vb.) */
-#dersTablosu thead tr:nth-child(2) th {
-    font-size: 11px; /* En alt başlıktaki küçük yazılar */
-    padding: 5px 2px;
+.center-text { text-align: center; margin: 0; line-height: 1.1; }
+.logo-image { block; max-width: 60px; height: auto; margin-bottom: 20px; }
+.alt-kisim { display: flex; margin-top: 30px; position: relative; }
+.sag-tablo { flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 80px; }
+
+/* 4. Tablo Tasarımı ve Sütun Oranları */
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: break-word; }
+
+#dersTablosu { 
+    table-layout: fixed; 
+    width: 100% !important; 
 }
+
+/* Sütun Genişlikleri: Toplam %100 */
+#dersTablosu th:nth-child(1), #dersTablosu td:nth-child(1) { width: 35%; } /* Ders Adı */
+#dersTablosu thead tr:nth-child(2) th:nth-child(1), #dersTablosu tbody td:nth-child(2) { width: 12%; } /* Kredi */
+#dersTablosu thead tr:nth-child(2) th:nth-child(2), #dersTablosu tbody td:nth-child(3) { width: 18%; } /* Kodu */
+#dersTablosu thead tr:nth-child(2) th:nth-child(3), #dersTablosu tbody td:nth-child(4) { width: 11%; } /* Grup */
+#dersTablosu thead tr:nth-child(2) th:nth-child(4), #dersTablosu tbody td:nth-child(5) { width: 12%; } /* Ekle */
+#dersTablosu thead tr:nth-child(2) th:nth-child(5), #dersTablosu tbody td:nth-child(6) { width: 12%; } /* Sil */
+
+#dersTablosu th { font-size: 13px; background-color: #f9f9f9; }
+#dersTablosu td { font-size: 12px; }
+#dersTablosu thead tr:nth-child(2) th { font-size: 10px; padding: 5px 2px; }
+
+/* 5. Mobil ve Yazdırma Kuralları */
+@media (max-width: 768px) {
+    .container { padding: 15px; width: 100%; }
+    .alt-kisim { flex-direction: column; align-items: center; }
+    .sag-tablo { margin-right: 0 !important; }
+    .button-group { flex-direction: column; }
+    
+    /* Mobil Tablo Kaydırma Alanı */
+    #dersTablosuContainer { 
+        overflow-x: auto; 
+        width: 100%; 
+        -webkit-overflow-scrolling: touch; 
+    }
+    #dersTablosu { 
+        min-width: 600px; /* Mobilde tablonun çok ezilmesini engeller, kaydırmayı tetikler */
+    }
+}
+
+@media (max-width: 600px) {
+    .email-container { flex-wrap: wrap; }
+    .email-container span { font-size: 14px; color: #555; margin-top: 5px; }
+}
+
+@media print {
+    body * { visibility: hidden; }
+    .letter-section, .letter-section * { visibility: visible; }
+    .letter-section { position: absolute; top: 0; left: 0; width: 210mm; }
+}
+
+/* Bilgilerin hizalı durması için eklenen stiller */
+.info-row {
+    display: flex;
+    margin-bottom: 2px;
+    line-height: 1.2;
+    align-items: flex-start;
+}
+.info-label {
+    width: 120px; /* Başlık metninin genişliği */
+    font-weight: bold;
+}
+.info-separator {
+    width: 20px; /* İki noktanın duracağı sabit alan */
+    font-weight: bold;
+    text-align: center;
+}
+.info-content {
+    flex: 1; /* Cevabın yazılacağı alan */
+}
+
 </style>
 </head>
 <body>
@@ -224,18 +198,41 @@ line-height:1.4;
   <p id="bolumYazisi" class="center-text"><strong></strong></p>
   <p class="center-text"><strong>MAZERETLİ DERS EKLE-SİL DİLEKÇESİ</strong></p>
 </div>
+      </div>
 
-      </div>
-      <div style="display: flex; justify-content: space-between; margin-top: 40px;">
-        <p id="adSoyadYazisi" style="margin: 0;"><strong>Adı-Soyadı:</strong></p>
-       <p id="ustTarihYazisi" style="margin: 0; padding-right: 30px; white-space: nowrap; min-width: 150px; text-align: right;">Tarih:</p>
-      </div>
-      <div style="margin-top: 0;">
-        <p id="numaraYazisi" style="margin: 0;"></p>
-        <p id="bolumBilgisiYazisi" style="margin: 0;"></p>
-        <p id="telefonYazisi" style="margin: 0;"></p>
-        <p id="emailYazisi" style="margin: 0;"></p>
-      </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+    <div style="flex: 1;">
+        <div class="info-row">
+            <span class="info-label">Adı-Soyadı</span>
+            <span class="info-separator">:</span>
+            <span id="adSoyadYazisi" class="info-content"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Öğrenci No</span>
+            <span class="info-separator">:</span>
+            <span id="numaraYazisi" class="info-content"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Bölümü/Program</span>
+            <span class="info-separator">:</span>
+            <span id="bolumBilgisiYazisi" class="info-content"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">GSM No</span>
+            <span class="info-separator">:</span>
+            <span id="telefonYazisi" class="info-content"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">E-posta</span>
+            <span class="info-separator">:</span>
+            <span id="emailYazisi" class="info-content"></span>
+        </div>
+    </div>
+    <div id="ustTarihYazisi" style="padding-right: 30px; text-align: right; font-weight: bold;">
+        Tarih:
+    </div>
+</div>
+
       <p style="text-align: justify; margin-top: 20px;">
         <strong id="yilMetni"></strong> eğitim-öğretim yılı <strong id="donemMetni"></strong> Yarıyılı ders kayıt haftasında aşağıda belirtmiş olduğum mazeretten ötürü ders kaydımı/ekle-sil işlemini yapamadım. Eklemek/silmek istediğim aşağıda yazılı derslerin öğrenci otomasyon sistemine işlenmesi için gereğini arz ederim.
       </p>
@@ -248,7 +245,7 @@ line-height:1.4;
       <div id="dersTablosuContainer">
         <table id="dersTablosu">
           <thead>
-            <tr><th rowspan="2" style="width: 350px;">DERSİN ADI</th><th colspan="5">DERSİN</th></tr>
+            <tr><th rowspan="2">DERSİN ADI</th><th colspan="5">DERSİN</th></tr>
            <tr>
   <th style="font-size: 8pt;">KREDİSİ</th>
   <th style="font-size: 8pt;">KODU</th>
@@ -325,11 +322,12 @@ const soyad = document.getElementById("soyad").value.toLocaleUpperCase('tr-TR');
       const email = document.getElementById("emailUser").value.trim() + "@std.yildiz.edu.tr";
       const bolum = document.getElementById("bolumSelect").value;
 
-      document.getElementById("adSoyadYazisi").innerHTML = `<strong>Adı-Soyadı:</strong> ${ad} ${soyad}`;
-      document.getElementById("numaraYazisi").innerHTML = `<strong>Öğrenci No:</strong> ${document.getElementById("numara").value}`;
-      document.getElementById("telefonYazisi").innerHTML = `<strong>GSM No:</strong> ${document.getElementById("telefon").value}`;
-      document.getElementById("emailYazisi").innerHTML = `<strong>E-posta:</strong> ${email}`;
-      document.getElementById("bolumBilgisiYazisi").innerHTML = `<strong>Bölümü:</strong> ${bolum.replace(" BÖLÜM BAŞKANLIĞINA","")}`;
+      // Mevcut form submit fonksiyonu içindeki şu satırları güncelleyin:
+document.getElementById("adSoyadYazisi").innerText = `${ad} ${soyad}`;
+document.getElementById("numaraYazisi").innerText = document.getElementById("numara").value;
+document.getElementById("telefonYazisi").innerText = document.getElementById("telefon").value;
+document.getElementById("emailYazisi").innerText = email;
+document.getElementById("bolumBilgisiYazisi").innerText = bolum.replace(" BÖLÜM BAŞKANLIĞINA","");
      
 document.getElementById("bolumYazisi").innerHTML = `<strong>${bolum}</strong>`;
       document.getElementById("mazeretMetni").innerText = document.getElementById("mazeret").value;
@@ -391,6 +389,12 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
     
     pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+pdf.setFont("helvetica", "italic"); // italik font
+pdf.setFontSize(8);
+pdf.setTextColor(150); // silik gri
+pdf.text("Form No: FR-0531; Revizyon Tarihi: 14.01.2014; Revizyon No:02", 10, 290);
+
     pdf.save(`${window.adSoyad}.pdf`);
   });
 });
