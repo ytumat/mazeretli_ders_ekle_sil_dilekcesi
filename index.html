@@ -163,7 +163,7 @@ th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: b
     box-sizing: border-box;
 }
 
-#emailUser {
+#adana {
     flex: 1;
     height: 100% !important;
     margin: 0 !important;
@@ -214,7 +214,7 @@ th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: b
 
 <label><strong>YTÜ E-posta Kullanıcı Adınız:</strong></label>
 <div class="email-container">
-    <input type="text" id="emailUser" 
+    <input type="text" id="adana" 
            placeholder="kullanıcı adınızı yazınız" 
            required 
            autocomplete="off" 
@@ -431,7 +431,7 @@ let secimHatasi = false;
 const ad = document.getElementById("ad").value.toLocaleUpperCase('tr-TR');
 const soyad = document.getElementById("soyad").value.toLocaleUpperCase('tr-TR');
 
-      const email = document.getElementById("emailUser").value.trim() + "@std.yildiz.edu.tr";
+      const email = document.getElementById("adana").value.trim() + "@std.yildiz.edu.tr";
       const bolum = document.getElementById("bolumSelect").value;
 
       // Mevcut form submit fonksiyonu içindeki şu satırları güncelleyin:
@@ -524,4 +524,3 @@ pdf.text("Form No: FR-0531; Revizyon Tarihi: 14.01.2014; Revizyon No:02", 10, 29
   </script>
 </body>
 </html>
-
