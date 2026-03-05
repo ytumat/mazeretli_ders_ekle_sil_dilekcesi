@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dilekçe Oluştur</title>
   <style>
+
+.letter-section {
+    overflow: hidden; /* Taşmaları engeller */
+}
+
    /* 1. Genel Sayfa Yapısı */
 body { 
     font-family: Calibri, "Times New Roman", serif; 
@@ -144,6 +149,49 @@ th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: b
     flex: 1; /* Cevabın yazılacağı alan */
 }
 
+
+
+/* E-posta alanı için birleştirilmiş ve temizlenmiş CSS */
+.email-container { 
+    display: flex; 
+    align-items: stretch; 
+    margin-top: 6px;
+    margin-bottom: 16px;
+    height: 42px; /* Yükseklik burada sabitlenmeli */
+    flex-wrap: nowrap;
+    min-width: 0;
+}
+
+#emailUser {
+    flex: 1;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 12px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+.email-container span {
+    display: flex;
+    align-items: center;
+    background-color: #e7f1ff;
+    color: #0056b3;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    font-weight: bold;
+    font-size: 13px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+
 </style>
 </head>
 <body>
@@ -155,14 +203,28 @@ th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: b
       <label><strong>Öğrenci Numarası:</strong></label><input type="text" id="numara" required />
 
 <label><strong>YTÜ E-posta Kullanıcı Adınız:</strong></label>
-<div class="email-container" style="display: flex; align-items: center;">
-    <input type="text" id="emailUser" required style="flex: 1;" placeholder="kullanıcı adınızı yazınız" oninput="temizleAtIsareti(this)" />
-    <span style="margin-left: 5px;">@std.yildiz.edu.tr</span>
+<div class="email-container">
+    <input type="text" id="emailUser" 
+           placeholder="kullanıcı adınızı yazınız" 
+           required 
+           autocomplete="off" 
+           oninput="temizleAtIsareti(this)"
+           onpaste="return false;" 
+           ondrop="return false;" />
+    <span>@std.yildiz.edu.tr</span>
 </div>
 
 
+
+
+     <label><strong>Cep Telefonu:</strong></label>
+<input type="text" id="telefon" 
+       required 
+       placeholder="(5XX) XXX XXXX" 
+       maxlength="15" 
+       inputmode="numeric" 
+       oninput="telefonFormatla(this)" />
      
-      <label><strong>Cep Telefonu:</strong></label><input type="text" id="telefon" required placeholder="(5xx) 123 4567"/>
       <label><strong>Mazeretiniz:</strong></label><textarea id="mazeret" rows="3" required></textarea>
       <input type="hidden" id="akademikYil"><input type="hidden" id="donemSelect">
       <label><strong>Eklenecek Ders Dahil <span id="labelDonem"></span> Yarıyılında Alınan Toplam Kredi</strong>:</label>
@@ -278,6 +340,21 @@ th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: b
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
+
+function telefonFormatla(input) {
+    let value = input.value.replace(/\D/g, ''); // Sadece rakamları al
+    if (value.startsWith('0')) value = value.substring(1); // Başta 0 varsa sil
+    
+    let formatted = "";
+    if (value.length > 0) {
+        formatted = "(" + value.substring(0, 3);
+        if (value.length > 3) formatted += ") " + value.substring(3, 6);
+        if (value.length > 6) formatted += " " + value.substring(6, 10);
+    }
+    input.value = formatted;
+}
+
+
     function temizleAtIsareti(input) {
       if (input.value.includes('@')) {
         input.value = input.value.replace(/@/g, '');
@@ -292,30 +369,55 @@ th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: b
       return metin.trim().split(/\s+/).map(kelime => turkishCapitalize(kelime)).join(" ");
     }
 
-    function dersEkle() {
-      const container = document.getElementById("dersListesi");
-      const div = document.createElement("div");
-      div.className = "ders-item";
-      div.innerHTML = `
-        <label><strong>Dersin Kodu:</strong></label><input type="text" name="derskod" required />
-        <label><strong>Dersin Adı:</strong></label><input type="text" name="dersad" required />
-        <label><strong>Dersin Grubu:</strong></label><input type="text" name="dersgrup" required />
-        <label><strong>Dersin Kredisi:</strong></label><input type="text" name="derskredi" required />
-        <label><strong>İşlem:</strong></label>
-          <select name="dersislem">
-            <option>Seçiniz</option>
-            <option value="ekle">Ekle</option>
-            <option value="sil">Sil</option>
-          </select>
-      `;
-      container.appendChild(div);
-    }
+   function dersEkle() {
+  const container = document.getElementById("dersListesi");
+  const div = document.createElement("div");
+  div.className = "ders-item";
+  
+  // Kutuyu daha belirgin hale getirmek için stil ekleyelim
+  div.style.border = "1px solid #ddd";
+  div.style.padding = "15px";
+  div.style.marginBottom = "20px";
+  div.style.borderRadius = "8px";
+  div.style.backgroundColor = "#fff";
+
+  div.innerHTML = `
+    <label><strong>Dersin Kodu:</strong></label><input type="text" name="derskod" required />
+    <label><strong>Dersin Adı:</strong></label><input type="text" name="dersad" required />
+    <label><strong>Dersin Grubu:</strong></label><input type="text" name="dersgrup" required />
+    <label><strong>Dersin Kredisi:</strong></label><input type="text" name="derskredi" required />
+    <label><strong>İşlem:</strong></label>
+    <select name="dersislem">
+        <option>Seçiniz</option>
+        <option value="ekle">Ekle</option>
+        <option value="sil">Sil</option>
+    </select>
+    
+    <button type="button" 
+            onclick="if(confirm('Bu ders bilgilerini silmek istediğinize emin misiniz?')) { this.parentElement.remove(); }" 
+            style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; height: 35px; line-height: 35px; width: 100%; margin-top: 10px; font-size: 14px;">
+        🗑️ Bu Ders Satırını Kaldır
+    </button>
+  `;
+  container.appendChild(div);
+}
+
 
     window.onload = () => { dersEkle(); formuOtomatikDoldur(); };
 
     document.getElementById("dilekceForm").addEventListener("submit", function (e) {
       e.preventDefault();
       
+let secimHatasi = false;
+    document.querySelectorAll("select[name='dersislem']").forEach(select => {
+        if (select.value === "Seçiniz") secimHatasi = true;
+    });
+
+    if (secimHatasi) {
+        alert("Lütfen tüm dersler için Ekle veya Sil seçimini yapınız.");
+        return; // İşlemi burada durdurur, aşağıya geçmez
+    }
+
 const ad = document.getElementById("ad").value.toLocaleUpperCase('tr-TR');
 const soyad = document.getElementById("soyad").value.toLocaleUpperCase('tr-TR');
 
@@ -365,17 +467,17 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
   
   // 1. Ekranı çok genişmiş gibi simüle et
   const originalBodyWidth = document.body.style.width;
-  document.body.style.width = "1200px"; // 1000'den 1200'e çıkardık
+  document.body.style.width = "1200px"; 
   
   element.style.display = "block";
-  element.style.width = "800px"; // CSS ile uyumlu hale getirdik
+  element.style.width = "800px"; 
 
   html2canvas(element, { 
     scale: 2, 
     useCORS: true,
     logging: false,
     width: 800,
-    windowWidth: 1000, // Tarayıcı genişliğini çok büyük tutarak kesilmeyi önlüyoruz
+    windowWidth: 1000, 
     x: 0,
     y: 0
   }).then(canvas => {
@@ -412,5 +514,4 @@ pdf.text("Form No: FR-0531; Revizyon Tarihi: 14.01.2014; Revizyon No:02", 10, 29
   </script>
 </body>
 </html>
-
 
