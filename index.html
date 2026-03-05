@@ -151,44 +151,54 @@ th, td { border: 1px solid black; padding: 8px; text-align: center; word-wrap: b
 
 
 
-/* E-posta alanı için mobil uyumlu kesin çözüm */
+/* E-posta alanı - Milimetrik Hizalama Sürümü */
 .email-container { 
     display: flex; 
-    align-items: stretch; /* İçerideki her şeyi aynı yüksekliğe zorlar */
+    align-items: stretch; 
     margin-top: 6px;
     margin-bottom: 16px;
-    height: 45px; /* Standart buton yüksekliğiyle eşitledik */
+    height: 45px; 
     flex-wrap: nowrap;
     width: 100%;
+    box-sizing: border-box;
 }
 
 #emailUser {
     flex: 1;
-    height: 100% !important; /* Kapsayıcının tüm yüksekliğini kapla */
+    height: 100% !important;
     margin: 0 !important;
     padding: 0 12px;
     border: 1px solid #ccc;
-    border-right: none; /* Uzantı ile birleşme noktası */
-    border-radius: 4px 0 0 4px; /* Sadece sol köşeler oval */
+    border-right: none;
+    border-radius: 4px 0 0 4px;
     font-size: 16px;
-    -webkit-appearance: none; /* Mobil tarayıcı gölgelerini kaldırır */
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     box-sizing: border-box;
+    /* Dikey hizalama için eklenenler: */
+    display: block;
+    line-height: normal; 
 }
 
 .email-container span {
     display: flex;
-    align-items: center; /* Metni dikeyde ortalar */
+    align-items: center; 
     justify-content: center;
     background-color: #e7f1ff;
     color: #0056b3;
     padding: 0 10px;
     border: 1px solid #ccc;
-    border-radius: 0 4px 4px 0; /* Sadece sağ köşeler oval */
+    border-radius: 0 4px 4px 0;
     font-weight: bold;
     font-size: 13px;
     white-space: nowrap;
-    height: 100%; /* Kapsayıcının tüm yüksekliğini kapla */
+    height: 100%;
+    margin: 0 !important; /* Dış boşlukları tamamen sıfırla */
     box-sizing: border-box;
+    /* Dikey hizalama için eklenenler: */
+    line-height: 1; 
 }
 
 
